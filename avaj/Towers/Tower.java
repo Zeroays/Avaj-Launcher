@@ -6,14 +6,15 @@
 /*   By: vrabaib <vrabaib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:08:05 by vrabaib           #+#    #+#             */
-/*   Updated: 2020/01/08 12:53:08 by vrabaib          ###   ########.fr       */
+/*   Updated: 2020/02/07 12:26:33 by vrabaib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package avaj.towers;
 
-import avaj.aircrafts.Flyable;
-import avaj.aircrafts.Aircraft;
+// import avaj.aircrafts.Flyable;
+// import avaj.aircrafts.Aircraft;
+import avaj.aircrafts.*;
 import java.util.ArrayList;
 
 public class Tower {
