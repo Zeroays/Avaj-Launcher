@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-import avaj.aircrafts.AircraftFactory;
+package avaj.simulator;
+
 import avaj.aircrafts.Flyable;
-import avaj.aircrafts.Aircraft;
-import avaj.towers.*;
-import avaj.weather.WeatherProvider;
+import avaj.aircrafts.AircraftFactory;
+import avaj.aircrafts.Report;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,6 +50,13 @@ public class Simulator {
             avajTower.changeWeather();
             simNum--;
         }
+        try {
+            Report.getReport().close();
+        } catch (IOException e) {
+            System.out.println("Could not close file");
+            System.exit(1);
+        }
+        
     } 
 }
 
