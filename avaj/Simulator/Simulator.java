@@ -29,7 +29,6 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class Simulator {
-    static Processor avaj = new Processor();
     static WeatherTower avajTower = new WeatherTower();
 
     public static void main(String[] args) {
@@ -37,12 +36,13 @@ public class Simulator {
             System.out.println("usage: java Simulator [scenario.txt]");
             return ;
         }
-        avaj.processScenario(args[0]);
+        Processor.processScenario(args[0]);
         runSimulation();
+        endReport();
     }
     private static void runSimulation() {
-        int simNum = avaj.getSimNum();
-        List<Flyable> aircrafts = avaj.getAircrafts();
+        int simNum = Processor.getSimNum();
+        List<Flyable> aircrafts = Processor.getAircrafts();
         for (Flyable avajs : aircrafts) {
             avajs.registerTower(avajTower);
         }
@@ -50,31 +50,31 @@ public class Simulator {
             avajTower.changeWeather();
             simNum--;
         }
+    }
+    private static void endReport() {
         try {
             Report.getReport().close();
         } catch (IOException e) {
             System.out.println("Could not close file");
             System.exit(1);
         }
-        
-    } 
+    }
 }
 
 class Processor {
-    ParseHandler parser = new ParseHandler();
     private static int simNum;
     private static List<Flyable> aircrafts = new ArrayList<>();
     private static AircraftFactory avajFactory = new AircraftFactory();
 
-    public int getSimNum() {
-        return (this.simNum);
+    public static int getSimNum() {
+        return simNum;
     }
 
-    public List<Flyable> getAircrafts() {
-        return (this.aircrafts);
+    public static List<Flyable> getAircrafts() {
+        return aircrafts;
     }
 
-    public void processScenario(String file) {
+    public static void processScenario(String file) {
         BufferedReader reader = null;
         File scenario = new File(file);
         String text;
@@ -102,14 +102,14 @@ class Processor {
             }
         }
     }
-    private void checkScenario(String text, int lineNum) {
+    private static void checkScenario(String text, int lineNum) {
         if (lineNum == 1)
             checkSimulationNum(text);
         else
             checkAircrafts(text);
     }
-    private void checkSimulationNum(String simNum) {
-        Integer simNumResult = this.parser.parseInteger(simNum);
+    private static void checkSimulationNum(String simNum) {
+        Integer simNumResult = ParseHandler.parseInteger(simNum);
 
         if (simNumResult == null) {
             System.out.println("Error reading Number of Simulations.  Is it a positive integer?");
@@ -118,17 +118,17 @@ class Processor {
             System.out.println("Invalid First Line.  Simulation must be positive integer value.");
             System.exit(1);
         } 
-        this.simNum = simNumResult;
+        Processor.simNum = simNumResult;
     }
-    private void checkAircrafts(String aircraftInfo) {
+    private static void checkAircrafts(String aircraftInfo) {
         String[] aircrafts = {"Baloon", "Helicopter", "JetPlane"};
         String[] result = aircraftInfo.split(" ");
 
         String type = result[0];
         String name = result[1];
-        Integer longitude = this.parser.parseInteger(result[2]);
-        Integer latitude = this.parser.parseInteger(result[3]);
-        Integer height = this.parser.parseInteger(result[4]);
+        Integer longitude = ParseHandler.parseInteger(result[2]);
+        Integer latitude = ParseHandler.parseInteger(result[3]);
+        Integer height = ParseHandler.parseInteger(result[4]);
 
         if (result.length != 5) {
             System.out.println("Format of Aircraft Info should be as follows:");
@@ -148,16 +148,16 @@ class Processor {
             System.exit(1);
         }
         if (height > 100) {
-            System.out.println("Height must be between 0 and 100");
+            System.out.println("Height is greater than 100");
             System.exit(1);
         }
         Flyable newAircraft = avajFactory.newAircraft(type, name, longitude, latitude, height);
-        this.aircrafts.add(newAircraft);
+        Processor.aircrafts.add(newAircraft);
     }
 }
 
 class ParseHandler {
-    public Integer parseInteger(String text) {
+    public static Integer parseInteger(String text) {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {

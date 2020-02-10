@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 package avaj.aircrafts;
-import avaj.properties.Coordinates;
 
 public class Aircraft {
     protected long id;
@@ -32,7 +31,7 @@ public class Aircraft {
     }
 
     protected void landing() {
-        System.out.println(fullID() + "landing.");
+        Report.update(fullID() + "landing.\n");
     }
 
     private long nextId() {

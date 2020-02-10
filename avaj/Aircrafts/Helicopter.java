@@ -12,88 +12,44 @@
 
 package avaj.aircrafts;
 
-import avaj.properties.Coordinates;
-import avaj.towers.WeatherTower;
-
-// public class Helicopter extends Aircraft implements Flyable {
-//     private WeatherTower weatherTower;
-
-//     public Helicopter(String name, Coordinates coordinates) {
-//         super(name, coordinates);
-//     }
-
-//     public void updateConditions() {
-//         String curForcast = weatherTower.getWeather(this.coordinates);
-//         System.out.println(fullID() + ": ");
-//         switch (curForcast) {
-//             case "Rain":
-//                 System.out.println("Rain huh... Eh.");
-//             case "Fog":
-//                 System.out.println("Murky as s%^&");
-//             case "Sun":
-//                 System.out.println("Oh finally, some sunshine");
-//             case "Snow":
-//                 System.out.println("Motha Nature 'bout to frosty us up");
-//         }
-//         if (this.coordinates.getHeight() == 0) {
-//             landing();
-//             this.weatherTower.unregister(this);
-//             System.out.println("Tower says: " + fullID() + " unregistered from weather tower");
-//         }
-//     }
-
-//     public void registerTower(WeatherTower weatherTower) {
-//         this.weatherTower = weatherTower;
-//         this.weatherTower.unregister(this);
-//         System.out.println("Tower says: " + fullID() + "registered to weather tower");
-//     }
-
-//     private void adjustCor(String curForcast) {
-//         int lon = this.coordinates.getLongitude();
-//         int lat = this.coordinates.getLatitude();
-//         int h = this.coordinates.getHeight();
-//         if (curForcast == "Sun")
-//             this.coordinates = new Coordinates(lon + 10, lat, h + 2);
-//         else if (curForcast == "Rain")
-//             this.coordinates = new Coordinates(lon + 5, lat, h);
-//         else if (curForcast == "Fog")
-//             this.coordinates = new Coordinates(lon + 1, lat, h);
-//         else if (curForcast == "Snow")
-//             this.coordinates = new Coordinates(lon, lat, h - 12);
-//     }
-// }
+import avaj.simulator.WeatherTower;
 
 public class Helicopter extends Aircraft implements Flyable {
     private WeatherTower weatherTower;
 
-    public Helicopter(String name, Coordinates coordinates) {
+    Helicopter(String name, Coordinates coordinates) {
         super(name, coordinates);
     }
 
     public void updateConditions() {
         String curForcast = weatherTower.getWeather(this.coordinates);
-        System.out.println(fullID() + ": ");
+        Report.update(fullID() + ": ");
         switch (curForcast) {
             case "Rain":
-                System.out.println("Rain huh... Eh.");
+                Report.update("Rain huh... Eh.\n");
+                break;
             case "Fog":
-                System.out.println("Murky as s%^&");
+                Report.update("Murky as s%^&\n");
+                break;
             case "Sun":
-                System.out.println("Oh finally, some sunshine");
+                Report.update("Oh finally, some sunshine\n");
+                break;
             case "Snow":
-                System.out.println("Motha Nature 'bout to frosty us up");
+                Report.update("Motha Nature 'bout to frosty us up\n");
+                break;
         }
+        adjustCor(curForcast);
         if (this.coordinates.getHeight() == 0) {
             landing();
             this.weatherTower.unregister(this);
-            System.out.println("Tower says: " + fullID() + " unregistered from weather tower");
+            Report.update("Tower says: " + fullID() + " unregistered from weather tower\n");
         }
     }
 
     public void registerTower(WeatherTower weatherTower) {
         this.weatherTower = weatherTower;
-        this.weatherTower.unregister(this);
-        System.out.println("Tower says: " + fullID() + "registered to weather tower");
+        this.weatherTower.register(this);
+        Report.update("Tower says: " + fullID() + "registered to weather tower\n");
     }
 
     private void adjustCor(String curForcast) {
@@ -103,10 +59,10 @@ public class Helicopter extends Aircraft implements Flyable {
         if (curForcast == "Sun")
             this.coordinates = new Coordinates(lon + 10, lat, h + 2);
         else if (curForcast == "Rain")
-            this.coordinates = new Coordinates(lon, lat + 5, h);
+            this.coordinates = new Coordinates(lon + 5, lat, h);
         else if (curForcast == "Fog")
-            this.coordinates = new Coordinates(lon, lat + 1, h);
+            this.coordinates = new Coordinates(lon + 1, lat, h);
         else if (curForcast == "Snow")
-            this.coordinates = new Coordinates(lon, lat, h - 7);
+            this.coordinates = new Coordinates(lon, lat, h - 12);
     }
 }

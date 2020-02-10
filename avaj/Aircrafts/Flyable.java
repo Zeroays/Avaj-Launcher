@@ -12,7 +12,7 @@
 
 package avaj.aircrafts;
 
-import avaj.towers.WeatherTower;
+import avaj.simulator.WeatherTower;
 
 public interface Flyable {
     public void updateConditions();

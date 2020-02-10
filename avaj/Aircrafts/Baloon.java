@@ -12,40 +12,44 @@
 
 package avaj.aircrafts;
 
-import avaj.properties.Coordinates;
-import avaj.towers.WeatherTower;
+import avaj.simulator.WeatherTower;
 
 public class Baloon extends Aircraft implements Flyable {
     private WeatherTower weatherTower;
 
-    public Baloon(String name, Coordinates coordinates) {
+    Baloon(String name, Coordinates coordinates) {
         super(name, coordinates);
     }
 
     public void updateConditions() {
         String curForcast = weatherTower.getWeather(this.coordinates);
-        System.out.println(fullID() + ": ");
+        Report.update(fullID() + ": ");
         switch (curForcast) {
             case "Rain":
-                System.out.println("Rain huh... Eh.");
+                Report.update("ChocOlate Raiiiiiin.\n");
+                break;
             case "Fog":
-                System.out.println("Murky as s%^&");
+                Report.update("Mmmm.  Misty\n");
+                break;
             case "Sun":
-                System.out.println("Oh finally, some sunshine");
+                Report.update("Over the Sunshine Rainbowwwww.\n");
+                break;
             case "Snow":
-                System.out.println("Motha Nature 'bout to frosty us up");
+                Report.update("Baloon is shriveling.\n");
+                break;
         }
-        if (this.coordinates.getHeight() == 0) {
+        adjustCor(curForcast);
+        if (this.coordinates.getHeight() <= 0) {
             landing();
             this.weatherTower.unregister(this);
-            System.out.println("Tower says: " + fullID() + " unregistered from weather tower");
+            Report.update("Tower says: " + fullID() + " unregistered from weather tower\n");
         }
     }
 
     public void registerTower(WeatherTower weatherTower) {
         this.weatherTower = weatherTower;
-        this.weatherTower.unregister(this);
-        System.out.println("Tower says: " + fullID() + "registered to weather tower");
+        this.weatherTower.register(this);
+        Report.update("Tower says: " + fullID() + "registered to weather tower\n");
     }
 
     private void adjustCor(String curForcast) {
