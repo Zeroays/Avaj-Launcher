@@ -147,10 +147,6 @@ class Processor {
             System.out.println("Longitude, Latitude, and/or Height must be a positive integer value");
             System.exit(1);
         }
-        if (height > 100) {
-            System.out.println("Height is greater than 100");
-            System.exit(1);
-        }
         Flyable newAircraft = avajFactory.newAircraft(type, name, longitude, latitude, height);
         Processor.aircrafts.add(newAircraft);
     }

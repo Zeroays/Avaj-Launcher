@@ -56,6 +56,7 @@ public class JetPlane extends Aircraft implements Flyable {
         int lon = this.coordinates.getLongitude();
         int lat = this.coordinates.getLatitude();
         int h = this.coordinates.getHeight();
+
         if (curForcast == "Sun")
             this.coordinates = new Coordinates(lon + 10, lat, h + 2);
         else if (curForcast == "Rain")
