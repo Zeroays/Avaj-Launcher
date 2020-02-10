@@ -6,7 +6,7 @@
 /*   By: vrabaib <vrabaib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 15:00:53 by vrabaib           #+#    #+#             */
-/*   Updated: 2020/02/07 12:33:23 by vrabaib          ###   ########.fr       */
+/*   Updated: 2020/02/10 12:50:35 by vrabaib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ public class Baloon extends Aircraft implements Flyable {
             landing();
             this.weatherTower.unregister(this);
             Report.update("Tower says: " + fullID() + " unregistered from weather tower\n");
+            Report.update("Current Coordinates: {Longitude: " + this.coordinates.getLongitude() + 
+            ", Latitude: " + this.coordinates.getLatitude() + ", Height: " + this.coordinates.getHeight() + "}\n");
         }
     }
 
@@ -56,6 +58,7 @@ public class Baloon extends Aircraft implements Flyable {
         int lon = this.coordinates.getLongitude();
         int lat = this.coordinates.getLatitude();
         int h = this.coordinates.getHeight();
+
         if (curForcast == "Sun")
             this.coordinates = new Coordinates(lon + 2, lat, h + 4);
         else if (curForcast == "Rain")

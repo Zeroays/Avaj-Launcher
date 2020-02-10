@@ -6,7 +6,7 @@
 /*   By: vrabaib <vrabaib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 13:03:58 by vrabaib           #+#    #+#             */
-/*   Updated: 2020/02/07 13:37:42 by vrabaib          ###   ########.fr       */
+/*   Updated: 2020/02/10 12:50:40 by vrabaib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ public class Helicopter extends Aircraft implements Flyable {
                 break;
         }
         adjustCor(curForcast);
-        if (this.coordinates.getHeight() == 0) {
+        if (this.coordinates.getHeight() <= 0) {
             landing();
             this.weatherTower.unregister(this);
             Report.update("Tower says: " + fullID() + " unregistered from weather tower\n");
+            Report.update("Current Coordinates: {Longitude: " + this.coordinates.getLongitude() + 
+            ", Latitude: " + this.coordinates.getLatitude() + ", Height: " + this.coordinates.getHeight() + "}\n");
         }
     }
 
