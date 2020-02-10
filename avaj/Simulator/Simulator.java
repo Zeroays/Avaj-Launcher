@@ -6,7 +6,7 @@
 /*   By: vrabaib <vrabaib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:44:12 by vrabaib           #+#    #+#             */
-/*   Updated: 2020/02/08 12:42:16 by vrabaib          ###   ########.fr       */
+/*   Updated: 2020/02/10 12:57:37 by vrabaib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,17 +124,17 @@ class Processor {
         String[] aircrafts = {"Baloon", "Helicopter", "JetPlane"};
         String[] result = aircraftInfo.split(" ");
 
+        if (result.length != 5) {
+            System.out.println("Format of Aircraft Info should be as follows:");
+            System.out.println("[TYPE NAME LONGITUDE LATITUDE HEIGHT]");
+            System.exit(1);
+        }
         String type = result[0];
         String name = result[1];
         Integer longitude = ParseHandler.parseInteger(result[2]);
         Integer latitude = ParseHandler.parseInteger(result[3]);
         Integer height = ParseHandler.parseInteger(result[4]);
 
-        if (result.length != 5) {
-            System.out.println("Format of Aircraft Info should be as follows:");
-            System.out.println("[TYPE NAME LONGITUDE LATITUDE HEIGHT]");
-            System.exit(1);
-        }
         if (!Arrays.asList(aircrafts).contains(result[0])) {
             System.out.println("Aircraft Name does not exist");
             System.exit(1);
